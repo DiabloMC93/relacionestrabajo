@@ -32,7 +32,7 @@
             background-color: var(--card);
             width: 100%;
             max-width: 720px;
-            min-height: 600px;
+            min-height: 650px; /* Un poco más alto para textos largos */
             margin: 20px;
             border-radius: 24px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
@@ -88,6 +88,7 @@
             flex-direction: column;
             justify-content: center;
             animation: fadeIn 0.4s ease-out;
+            overflow-y: auto; /* Scroll si el contenido es muy largo */
         }
 
         @keyframes fadeIn {
@@ -105,7 +106,7 @@
         }
 
         .question-text {
-            font-size: 1.35rem;
+            font-size: 1.25rem; /* Ajustado ligeramente */
             font-weight: 700;
             line-height: 1.4;
             margin-bottom: 30px;
@@ -185,6 +186,7 @@
             display: flex;
             justify-content: flex-end;
             background-color: white;
+            margin-top: auto; /* Empujar al fondo */
         }
 
         .next-btn {
@@ -356,91 +358,207 @@
 </div>
 
 <script>
-    // PREGUNTAS EXTRAÍDAS DE 3.DOCX
-    // Nota: Las preguntas 5 a 35 no eran legibles en la vista previa del archivo.
-    // Se han dejado marcadas para que las puedas rellenar fácilmente.
+    // PREGUNTAS EXTRAÍDAS DEL TEXTO PROPORCIONADO POR EL USUARIO
     const questions = [
-        // --- INICIO DOCUMENTO ---
-        {
-            q: "A la habilidad de guiar a la gente sin necesidad de una autoridad otorgada se la conoce como:",
-            options: ["Delegación", "Liderazgo", "Integridad", "Resiliencia"],
-            correct: 1
+        { 
+            q: "A la habilidad de guiar a la gente sin necesidad de una autoridad otorgada se la conoce como:", 
+            options: ["Delegación.", "Liderazgo.", "Resiliencia.", "Integridad."], 
+            correct: 1 
         },
-        {
-            q: "Cuál de las siguientes no se considera una ventaja de delegar el trabajo:",
-            options: ["Aumenta la carga de trabajo", "Aumenta la motivación de los trabajadores", "Promueve la buena comunicación", "Promueve la autoconfianza de los trabajadores"],
-            correct: 0
+        { 
+            q: "Cuál de las siguientes no se considera una ventaja de delegar el trabajo:", 
+            options: ["Aumenta la carga de trabajo", "Aumenta la motivación de los trabajadores", "Promueve la buena comunicación", "Promueve la autoconfianza de los trabajadores"], 
+            correct: 0 
         },
-        {
-            q: "Cuando en un conflicto solo se involucran las partes afectadas, se habla de:",
-            options: ["Confrontación o negociación", "Confrontación o arbitraje", "Conciliación, mediación o arbitraje", "Arbitraje, negociación o mediación"],
-            correct: 0
+        { 
+            q: "Cuando en un conflicto solo se involucran las partes afectadas, se habla de:", 
+            options: ["Confrontación o negociación", "Confrontación o arbitraje", "Conciliación, mediación o arbitraje", "Arbitraje, negociación o mediación"], 
+            correct: 0 
         },
-        {
-            q: "Cuando hay un enfrentamiento entre los integrantes de un mismo equipo, y puede verse afectada su dinámica o eficiencia, se habla de un conflicto:",
-            options: ["Intragrupal", "Intrapersonal", "Conflicto de roles", "Ninguna es correcta"],
-            correct: 0
+        { 
+            q: "Cuando hay un enfrentamiento entre los integrantes de un mismo equipo, y puede verse afectada su dinámica o eficiencia, se habla de un conflicto:", 
+            options: ["Intragrupal", "Intrapersonal", "Conflicto de roles", "Ninguna es correcta"], 
+            correct: 0 
         },
-
-        // --- ZONA INTERMEDIA (NO DETECTADA AUTOMÁTICAMENTE) ---
-        // Puedes copiar y pegar tus preguntas aquí reemplazando estos bloques
-        { q: "Pregunta 5 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 6 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 7 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 8 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 9 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 10 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 11 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 12 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 13 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 14 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 15 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 16 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 17 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 18 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 19 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 20 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 21 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 22 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 23 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 24 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 25 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 26 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 27 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 28 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 29 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 30 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 31 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 32 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 33 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 34 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-        { q: "Pregunta 35 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
-
-        // --- FINAL DOCUMENTO (DETECTADO) ---
-        {
-            q: "Pregunta 36 (Tipos de comunicación - Incompleta en origen):",
-            options: ["Comunicación ascendente, descendente y diagonal", "Comunicación transversal, horizontal y diagonal", "Todas las anteriores son incorrectas", "Opción D (No visible)"],
-            correct: 0 // Estimado
+        { 
+            q: "Cuando los conflictos se mantienen ocultos por deferentes factores como la exclusión o la legitimidad, se denomina:", 
+            options: ["Conflicto de interés", "Conflicto latente", "Conflicto manifiesto", "Conflicto de roles"], 
+            correct: 1 
         },
-        {
-            q: "¿Qué característica de las siguientes es propia de un buen negociador?",
-            options: ["Tener conocimiento del tema a tratar", "Tener capacidad de observación y escucha activa", "Ser resolutivo", "Todas son correctas"],
-            correct: 3
+        { 
+            q: "El conflicto enfoque-enfoque es un conflicto intrapersonal en el que:", 
+            options: ["Las opciones son varias alternativas y todas tienen un enfoque positivo.", "Las opciones son varias alternativas y todas tienen un enfoque negativas.", "Cuando se debe decidir entre opciones que pueden tener efectos positivos o negativos.", "Ninguna es correcta."], 
+            correct: 0 
         },
-        {
-            q: "¿Qué característica no es propia de un líder?",
-            options: ["Autoconocimiento", "Pesimismo", "Entusiasta", "Trabajador en equipo"],
-            correct: 1
+        { 
+            q: "El diagrama de Gantt:", 
+            options: ["Se utiliza para priorizar u planificar tareas dividiéndolas en tareas grandes, medianas y pequeñas.", "Se basa en la idea de realizar pequeños descansos de 3-4 min cada 25 minutos de trabajo.", "Sirve para mostrar el tiempo que se le dedica a cada tarea o actividad a lo largo de un periodo.", "Ninguna de las anteriores."], 
+            correct: 2 
         },
-        {
-            q: "¿Qué función no se considera propia de un mando intermedio?",
-            options: ["Planificar la producción", "Coordinar y supervisar", "Motivar", "Dirección general"],
-            correct: 3
+        { 
+            q: "El estilo de influencia inspirador…", 
+            options: ["Es aquel que se usa cuando se necesita llegar a acuerdos y pactos. Se hacen concesiones para llegar a un punto común.", "Es aquel que defiende sus ideas animando a los demás a buscar un objetivo común que ilusione a todos.", "Es aquel que se usa cuando se trata de unir ideas opuestas construyendo puentes a través de la escucha activa...", "Se basa en el razonamiento utilizando datos que contrasten las propuestas."], 
+            correct: 1 
         },
-        {
-            q: "¿Qué tres tipos de negociación existen?",
-            options: ["La negociación competitiva, el conflicto y la negociación de colaboración", "La negociación aclaratoria, de subordinación...", "Opción C", "Opción D"],
-            correct: 0
+        { 
+            q: "El método pomodoro:", 
+            options: ["Es un método para mejorar el trabajo en equipo.", "Consiste en reorganizar las tareas de más pesadas a menos", "Consiste en realizar pequeñas pausas para tener una mayor claridad mental", "Ninguna es correcta"], 
+            correct: 2 
+        },
+        { 
+            q: "El proceso de resolución de conflictos consta de los siguientes pasos:", 
+            options: ["Identificación, descripción, toma de decisiones y plan de acción", "Identificación, descripción, Análisis, posibles soluciones, toma de decisiones y plan de acción.", "Plan de acción, toma de decisiones, identificación, descripción, análisis y posibles soluciones.", "Ninguna es correcta."], 
+            correct: 1 
+        },
+        { 
+            q: "El recurso más importante en cualquier organización es:", 
+            options: ["Capital.", "Infraestructuras.", "Talento humano.", "Cultura sostenible."], 
+            correct: 2 
+        },
+        { 
+            q: "En la fase de toma de contacto de la negociación:", 
+            options: ["Las partes intentan ponerse de acuerdo utilizando todas las herramientas o métodos disponibles...", "Las personas que van a negociar pueden verse personalmente y comienzan a analizarse y a reconocer a la otra parte...", "Es la fase final de la negociación en la que ambas partes hacen sus concesiones.", "Fase en la que ambas partes preparan la negociación determinando los objetivos..."], 
+            correct: 1 
+        },
+        { 
+            q: "En la negociación de colaboración:", 
+            options: ["Una de las partes tiene una posición de poder sobre la otra y sólo acepta acuerdos que le sean beneficiosos para él.", "Se busca alcanzar un acuerdo en que las partes lleguen a un acuerdo beneficioso para ambas con una actitud colaborativa.", "Una de las partes cede ante la otra y sacrifica sus intereses para evitar conflictos.", "Ninguna es correcta."], 
+            correct: 1 
+        },
+        { 
+            q: "En la resolución de conflictos en la que intervienen terceras personas, el arbitraje es aquel en el que:", 
+            options: ["El tercero involucrado propone soluciones y facilita que las partes lleguen a un acuerdo beneficioso para ambas partes.", "Las partes afectadas acuerdan que un tercero objetivo decida la solución por ellos.", "Las partes acuden a un tercero que les ayuda y anima a llegar a un acuerdo siendo testigo de ello.", "Ninguna es correcta"], 
+            correct: 1 
+        },
+        { 
+            q: "En las estrategias habituales de la negociación, la postura de imponer consiste en:", 
+            options: ["El objetivo de ambas partes es llegar a un acuerdo que beneficie a ambos.", "Consiste en dar prioridad a la otra parte para sacar ventaja en otra cuestión o proyecto futuro.", "Una de las partes quiere ganar a toda costa, es una posición egoísta.", "Consiste en pasar por alto un asunto en particular que no se quiera tratar en la negociación."], 
+            correct: 2 
+        },
+        { 
+            q: "En una negociación solo puede haber acuerdo cuando ambas partes:", 
+            options: ["Tienen una zona coincidente entre sus objetivos de salida y de ruptura", "No tienen una zona coincidente entre sus objetivos de salida y de ruptura", "Cuando ninguno quiera ceder en sus propuestas", "Ninguna opción es correcta"], 
+            correct: 0 
+        },
+        { 
+            q: "Entre los métodos para la toma de decisiones, el ranking consiste en:", 
+            options: ["El equipo genera ideas y tiene una discusión abierta pero la decisión la toma una persona con autoridad.", "El equipo debe votar por una cuestión en particular, se debate y discute y finalmente es la mayoría la que termina decidiendo.", "El equipo debe votar la propuesta menos popular y se elimina...", "Apuntar las 4 o 5 mejores ideas que se hayan aportado y se votan de 1 a 5 puntos y se selecciona la más votada."], 
+            correct: 3 
+        },
+        { 
+            q: "La fase de la negociación de acercamiento de posturas y cierre:", 
+            options: ["Es cuando se realiza la preparación de la negociación", "Es cuando ambas partes intentan ponerse de acuerdo", "Es cuando las personas que van a negociar comienzan a contactar y a analizarse", "Es cuando ambas partes ceden para llegar a un punto común y se hacen propuestas concretas"], 
+            correct: 3 
+        },
+        { 
+            q: "La motivación extrínseca:", 
+            options: ["Se da cuando el individuo, por factores externos, es movido a actuar.", "Es aquella derivada de factores internos, es decir, cuando el propio individuo se esfuerza por alcanzar un objetivo.", "Es aquella que cubre las necesidades básicas (comer, beber, vestirse, etc.)", "Ninguna de las anteriores."], 
+            correct: 0 
+        },
+        { 
+            q: "Los grupos formales en la organización, pueden surgir a causa de:", 
+            options: ["Afinidad entre los compañeros", "Las funciones desarrolladas", "Rangos de edad parecidos", "Aficiones compartidas"], 
+            correct: 1 
+        },
+        { 
+            q: "Para conseguir que el equipo de trabajo sea efectivo, son necesarias habilidades como:", 
+            options: ["Fomentar la empatía y la retroalimentación.", "Escucha activa.", "Asertividad.", "Todas las anteriores."], 
+            correct: 3 
+        },
+        { 
+            q: "Saber otorgar responsabilidad sobre los otros mandos para optimizar tareas según las capacidades de estos se denomina:", 
+            options: ["Inteligencia emocional.", "Capacidad de comunicar.", "Capacidad de captación.", "Capacidad para delegar."], 
+            correct: 3 
+        },
+        { 
+            q: "Se considera un equipo sinérgico:", 
+            options: ["Aquel que funciona correctamente de forma aparente, pero en realidad tiene muchos problemas no reconocidos ni asumidos", "Es el equipo ideal al que todos los equipos deberían orientarse, todos los integrantes trabajan y colaboran...", "Cuando no existe ninguna sinergia entre los miembros del equipo y no colaboran entre sí.", "Cuando el funcionamiento del equipo está en permanente alteración..."], 
+            correct: 1 
+        },
+        { 
+            q: "Según la teoría de Herzberg, un factor higiénico es:", 
+            options: ["La responsabilidad", "El reconocimiento laboral", "El salario", "El logro"], 
+            correct: 2 
+        },
+        { 
+            q: "Según la teoría de Maslow, ¿qué necesidad surge antes que el respeto?", 
+            options: ["Alimentación", "Espontaneidad", "Moralidad", "Creatividad"], 
+            correct: 0 
+        },
+        { 
+            q: "Si en un conflicto interviene una tercera persona externa, el cual estudia la raíz del conflicto y emite un informe que se tiene en cuenta como una resolución oficial y de obligado cumplimiento, el método aplicado habrá sido:", 
+            options: ["Arbitraje", "Negociación", "Confrontación", "Conciliación"], 
+            correct: 0 
+        },
+        { 
+            q: "Una de las características fundamentales de la comunicación oral es:", 
+            options: ["Que el mensaje es perecedero", "Que el soporte es la voz", "Que ayuda a la retroalimentación de las partes", "Todas las respuestas son correctas"], 
+            correct: 3 
+        },
+        { 
+            q: "¿Cómo se denomina la siguiente técnica de dinamización de grupos? “ El jefe del equipo convoca a los miembros del equipo con antelación...\"", 
+            options: ["Phillips 6/6", "Técnica del grupo nominal (TGN)", "Tormenta de ideas o brainstorming", "Seis sombreros para pensar"], 
+            correct: 2 
+        },
+        { 
+            q: "¿Cuál de estas afirmaciones se refieren a la comunicación descendente?", 
+            options: ["Se da en organizaciones de un tamaño más pequeño y con un carácter muy informal.", "Es el que se da cuando las personas están en el mismo nivel jerárquico.", "Donde los directivos comparten información con los empleados por lo que se utiliza para compartir documentos oficiales.", "Ninguna es correcta."], 
+            correct: 2 
+        },
+        { 
+            q: "¿Cuál de las siguientes es una barrera fisiológica en la comunicación?", 
+            options: ["Tener una actitud positiva o negativa para con nuestro interlocutor.", "Personas con problemas auditivos o visuales.", "No conocer el idioma.", "Ninguna de las anteriores es correcta."], 
+            correct: 1 
+        },
+        { 
+            q: "¿Cuál de las siguientes no es una técnica de motivación empresarial?:", 
+            options: ["Delegación de responsabilidades y autoridad", "Proporcionar formación y desarrollo personal a los empleados", "Reconocer los méritos y logros de los empleados", "Proporcionar un mayor número de horas de trabajo"], 
+            correct: 3 
+        },
+        { 
+            q: "¿Cuál es una cualidad de una persona con asertividad?", 
+            options: ["Habla con calma y confianza, de manera fluida.", "Sabe decir que no y ser firme en su postura.", "Mira a los ojos a las personas con quien se relaciona.", "Todas las anteriores."], 
+            correct: 3 
+        },
+        { 
+            q: "¿Cuál es una función de los directivos?", 
+            options: ["Planificar.", "Gestionar.", "Organizar.", "Todas las anteriores."], 
+            correct: 3 
+        },
+        { 
+            q: "¿Cuál no es una fuente de motivación externa?", 
+            options: ["Dinero.", "Autoestima.", "Reconocimiento empresarial.", "Reconocimiento social."], 
+            correct: 1 
+        },
+        { 
+            q: "¿Cuál no es una técnica para la mejora de la eficiencia de un equipo de trabajo?", 
+            options: ["Tormenta de ideas.", "Estudio de casos.", "Método GTD.", "Seis sombreros para pensar."], 
+            correct: 2 
+        },
+        { 
+            q: "¿cuáles son los flujos de comunicación que se clasifican por la dirección que siguen?", 
+            options: ["Comunicación vertical, comunicación horizontal y comunicación diagonal", "Comunicación ascendente, comunicación descendente y comunicación diagonal.", "Comunicación transversal, comunicación horizontal y comunicación diagonal.", "Todas las anteriores son incorrectas."], 
+            correct: 0 
+        },
+        { 
+            q: "¿Qué característica de las siguientes es propia de un buen negociador?:", 
+            options: ["Tener conocimiento del tema a tratar", "Tener capacidad de observación y escucha activa", "Ser resolutivo", "Todas son correctas"], 
+            correct: 3 
+        },
+        { 
+            q: "¿Qué característica no es propia de un líder?:", 
+            options: ["Autoconocimiento", "Pesimismo", "Entusiasta", "Trabajador en equipo"], 
+            correct: 1 
+        },
+        { 
+            q: "¿Qué función no se considera propia de un mando intermedio?:", 
+            options: ["Planificar la producción", "Coordinar y supervisar", "Motivar", "Dirección general"], 
+            correct: 3 
+        },
+        { 
+            q: "¿Qué tres tipos de negociación existen?:", 
+            options: ["La negociación competitiva, el conflicto y la negociación de colaboración", "La negociación aclaratoria, la negociación de subordinación y la negociación competitiva", "La negociación competitiva, la negociación de colaboración y la negociación de subordinación", "Ninguna es correcta"], 
+            correct: 2 
         }
     ];
 
@@ -519,6 +637,9 @@
             ui.optionsList.appendChild(btn);
         });
 
+        // Scroll al inicio de la pregunta (útil en móviles)
+        ui.quizScreen.scrollTop = 0;
+        
         updateStats();
     }
 
@@ -535,7 +656,7 @@
             scoreCorrect++;
         } else {
             btn.classList.add('wrong');
-            // Si la correcta está dentro del rango de opciones, la marcamos
+            // Mostrar la correcta
             if(buttons[q.correct]) {
                 buttons[q.correct].classList.add('correct');
             }
@@ -570,7 +691,7 @@
         let rawScore = (scoreCorrect * 0.25) - (scoreWrong * 0.08);
         if (rawScore < 0) rawScore = 0;
 
-        let gradeOutOf10 = rawScore; // Asumiendo que 40*0.25 = 10 puntos máximos
+        let gradeOutOf10 = rawScore; // 40 * 0.25 = 10
         
         ui.finalGrade.innerText = gradeOutOf10.toFixed(2);
         ui.finalCorrect.innerText = scoreCorrect;
