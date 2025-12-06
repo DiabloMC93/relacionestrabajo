@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de Gestión y Liderazgo</title>
+    <style>
+        :root {
+            --primary: #0ea5e9; /* Azul Océano */
+            --primary-dark: #0284c7;
+            --success: #10b981;
+            --error: #ef4444;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text-main: #0f172a;
+            --text-sec: #64748b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            background-color: var(--card);
+            width: 100%;
+            max-width: 720px;
+            min-height: 600px;
+            margin: 20px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: #e2e8f0;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .header {
+            padding: 20px 40px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+        }
+
+        .counters {
+            display: flex;
+            gap: 20px;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .counter-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 20px;
+        }
+
+        .c-correct { background-color: #d1fae5; color: #065f46; }
+        .c-wrong { background-color: #fee2e2; color: #991b1b; }
+
+        .content-area {
+            padding: 40px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-meta {
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 1.35rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 30px;
+            color: var(--text-main);
+        }
+
+        .options-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 20px;
+            text-align: left;
+            font-size: 1rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .option-letter {
+            background: #f1f5f9;
+            color: var(--text-sec);
+            font-weight: 700;
+            min-width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background-color: #f0f9ff;
+            transform: translateY(-2px);
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background-color: #ecfdf5;
+            color: #065f46;
+        }
+        .option-btn.correct .option-letter {
+            background-color: #34d399;
+            color: white;
+        }
+
+        .option-btn.wrong {
+            border-color: var(--error);
+            background-color: #fef2f2;
+            color: #991b1b;
+        }
+        .option-btn.wrong .option-letter {
+            background-color: #f87171;
+            color: white;
+        }
+
+        .footer-controls {
+            padding: 20px 40px;
+            border-top: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: flex-end;
+            background-color: white;
+        }
+
+        .next-btn {
+            background-color: var(--text-main);
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .next-btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .results-screen {
+            text-align: center;
+            display: none;
+            align-items: center;
+        }
+
+        .score-card {
+            background: white;
+            padding: 30px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: conic-gradient(var(--primary) 0%, #f1f5f9 0%);
+        }
+
+        .score-circle::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .score-text {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .final-grade {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1;
+        }
+
+        .grade-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-sec);
+            margin-top: 5px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .summary-item {
+            padding: 15px;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+
+        .summary-val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: block;
+        }
+
+        .restart-btn {
+            background-color: var(--primary);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .restart-btn:hover {
+            background-color: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <header class="header" id="header">
+        <div class="counters">
+            <div class="counter-item c-correct">
+                <span>Aciertos:</span> <span id="score-correct">0</span>
+            </div>
+            <div class="counter-item c-wrong">
+                <span>Fallos:</span> <span id="score-wrong">0</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="content-area" id="quiz-screen">
+        <span class="question-meta" id="q-number">Pregunta 1</span>
+        <h2 class="question-text" id="q-text">...</h2>
+        <div class="options-list" id="options-list"></div>
+    </div>
+
+    <div class="content-area results-screen" id="results-screen">
+        <div class="score-card">
+            <div class="score-circle" id="score-circle">
+                <div class="score-text">
+                    <span class="final-grade" id="final-grade">0.00</span>
+                    <span class="grade-label">NOTA FINAL</span>
+                </div>
+            </div>
+            
+            <p id="final-message" style="font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; color: var(--text-sec);">...</p>
+
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span class="summary-val" style="color: var(--success)" id="final-correct">0</span>
+                    <span style="font-size: 0.85rem; color: var(--text-sec)">Aciertos (+0.25)</span>
+                </div>
+                <div class="summary-item">
+                    <span class="summary-val" style="color: var(--error)" id="final-wrong">0</span>
+                    <span style="font-size: 0.85rem; color: var(--text-sec)">Fallos (-0.08)</span>
+                </div>
+            </div>
+
+            <button class="restart-btn" onclick="initQuiz()">Volver a intentar</button>
+        </div>
+    </div>
+
+    <footer class="footer-controls" id="footer">
+        <button class="next-btn" id="next-btn" onclick="nextQuestion()">Siguiente &rarr;</button>
+    </footer>
+</div>
+
+<script>
+    // PREGUNTAS EXTRAÍDAS DE 3.DOCX
+    // Nota: Las preguntas 5 a 35 no eran legibles en la vista previa del archivo.
+    // Se han dejado marcadas para que las puedas rellenar fácilmente.
+    const questions = [
+        // --- INICIO DOCUMENTO ---
+        {
+            q: "A la habilidad de guiar a la gente sin necesidad de una autoridad otorgada se la conoce como:",
+            options: ["Delegación", "Liderazgo", "Integridad", "Resiliencia"],
+            correct: 1
+        },
+        {
+            q: "Cuál de las siguientes no se considera una ventaja de delegar el trabajo:",
+            options: ["Aumenta la carga de trabajo", "Aumenta la motivación de los trabajadores", "Promueve la buena comunicación", "Promueve la autoconfianza de los trabajadores"],
+            correct: 0
+        },
+        {
+            q: "Cuando en un conflicto solo se involucran las partes afectadas, se habla de:",
+            options: ["Confrontación o negociación", "Confrontación o arbitraje", "Conciliación, mediación o arbitraje", "Arbitraje, negociación o mediación"],
+            correct: 0
+        },
+        {
+            q: "Cuando hay un enfrentamiento entre los integrantes de un mismo equipo, y puede verse afectada su dinámica o eficiencia, se habla de un conflicto:",
+            options: ["Intragrupal", "Intrapersonal", "Conflicto de roles", "Ninguna es correcta"],
+            correct: 0
+        },
+
+        // --- ZONA INTERMEDIA (NO DETECTADA AUTOMÁTICAMENTE) ---
+        // Puedes copiar y pegar tus preguntas aquí reemplazando estos bloques
+        { q: "Pregunta 5 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 6 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 7 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 8 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 9 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 10 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 11 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 12 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 13 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 14 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 15 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 16 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 17 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 18 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 19 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 20 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 21 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 22 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 23 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 24 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 25 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 26 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 27 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 28 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 29 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 30 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 31 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 32 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 33 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 34 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+        { q: "Pregunta 35 (Rellena el texto aquí)", options: ["Opción A", "Opción B", "Opción C", "Opción D"], correct: 0 },
+
+        // --- FINAL DOCUMENTO (DETECTADO) ---
+        {
+            q: "Pregunta 36 (Tipos de comunicación - Incompleta en origen):",
+            options: ["Comunicación ascendente, descendente y diagonal", "Comunicación transversal, horizontal y diagonal", "Todas las anteriores son incorrectas", "Opción D (No visible)"],
+            correct: 0 // Estimado
+        },
+        {
+            q: "¿Qué característica de las siguientes es propia de un buen negociador?",
+            options: ["Tener conocimiento del tema a tratar", "Tener capacidad de observación y escucha activa", "Ser resolutivo", "Todas son correctas"],
+            correct: 3
+        },
+        {
+            q: "¿Qué característica no es propia de un líder?",
+            options: ["Autoconocimiento", "Pesimismo", "Entusiasta", "Trabajador en equipo"],
+            correct: 1
+        },
+        {
+            q: "¿Qué función no se considera propia de un mando intermedio?",
+            options: ["Planificar la producción", "Coordinar y supervisar", "Motivar", "Dirección general"],
+            correct: 3
+        },
+        {
+            q: "¿Qué tres tipos de negociación existen?",
+            options: ["La negociación competitiva, el conflicto y la negociación de colaboración", "La negociación aclaratoria, de subordinación...", "Opción C", "Opción D"],
+            correct: 0
+        }
+    ];
+
+    let currentIdx = 0;
+    let scoreCorrect = 0;
+    let scoreWrong = 0;
+
+    const ui = {
+        progressBar: document.getElementById('progress-bar'),
+        scoreCorrect: document.getElementById('score-correct'),
+        scoreWrong: document.getElementById('score-wrong'),
+        qNumber: document.getElementById('q-number'),
+        qText: document.getElementById('q-text'),
+        optionsList: document.getElementById('options-list'),
+        nextBtn: document.getElementById('next-btn'),
+        quizScreen: document.getElementById('quiz-screen'),
+        resultsScreen: document.getElementById('results-screen'),
+        header: document.getElementById('header'),
+        footer: document.getElementById('footer'),
+        finalGrade: document.getElementById('final-grade'),
+        scoreCircle: document.getElementById('score-circle'),
+        finalCorrect: document.getElementById('final-correct'),
+        finalWrong: document.getElementById('final-wrong'),
+        finalMessage: document.getElementById('final-message')
+    };
+
+    function initQuiz() {
+        currentIdx = 0;
+        scoreCorrect = 0;
+        scoreWrong = 0;
+        
+        ui.resultsScreen.style.display = 'none';
+        ui.quizScreen.style.display = 'flex';
+        ui.header.style.display = 'flex';
+        ui.footer.style.display = 'flex';
+        
+        updateStats();
+        loadQuestion();
+    }
+
+    function updateStats() {
+        ui.scoreCorrect.innerText = scoreCorrect;
+        ui.scoreWrong.innerText = scoreWrong;
+        const progress = ((currentIdx) / questions.length) * 100;
+        ui.progressBar.style.width = `${progress}%`;
+    }
+
+    function loadQuestion() {
+        ui.quizScreen.style.animation = 'none';
+        ui.quizScreen.offsetHeight; 
+        ui.quizScreen.style.animation = 'fadeIn 0.4s ease-out';
+
+        const q = questions[currentIdx];
+        ui.qNumber.innerText = `PREGUNTA ${currentIdx + 1} DE ${questions.length}`;
+        ui.qText.innerText = q.q;
+        ui.optionsList.innerHTML = '';
+        ui.nextBtn.style.display = 'none';
+
+        const letters = ['A', 'B', 'C', 'D'];
+
+        q.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            
+            const letter = document.createElement('div');
+            letter.className = 'option-letter';
+            letter.innerText = letters[index] || '';
+            
+            const text = document.createElement('div');
+            text.innerText = opt;
+
+            btn.appendChild(letter);
+            btn.appendChild(text);
+            
+            btn.onclick = () => handleAnswer(index, btn);
+            ui.optionsList.appendChild(btn);
+        });
+
+        updateStats();
+    }
+
+    function handleAnswer(selectedIndex, btn) {
+        if (ui.nextBtn.style.display === 'block') return;
+
+        const q = questions[currentIdx];
+        const buttons = ui.optionsList.querySelectorAll('.option-btn');
+        
+        buttons.forEach(b => b.disabled = true);
+
+        if (selectedIndex === q.correct) {
+            btn.classList.add('correct');
+            scoreCorrect++;
+        } else {
+            btn.classList.add('wrong');
+            // Si la correcta está dentro del rango de opciones, la marcamos
+            if(buttons[q.correct]) {
+                buttons[q.correct].classList.add('correct');
+            }
+            scoreWrong++;
+        }
+
+        updateStats();
+        ui.nextBtn.style.display = 'block';
+        
+        if (window.innerWidth < 768) {
+            ui.nextBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    }
+
+    function nextQuestion() {
+        currentIdx++;
+        if (currentIdx < questions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        ui.quizScreen.style.display = 'none';
+        ui.header.style.display = 'none';
+        ui.footer.style.display = 'none';
+        ui.progressBar.style.width = '100%';
+        ui.resultsScreen.style.display = 'flex';
+
+        // Cálculo de nota: (+0.25 acierto) - (0.08 fallo)
+        let rawScore = (scoreCorrect * 0.25) - (scoreWrong * 0.08);
+        if (rawScore < 0) rawScore = 0;
+
+        let gradeOutOf10 = rawScore; // Asumiendo que 40*0.25 = 10 puntos máximos
+        
+        ui.finalGrade.innerText = gradeOutOf10.toFixed(2);
+        ui.finalCorrect.innerText = scoreCorrect;
+        ui.finalWrong.innerText = scoreWrong;
+
+        const percentage = (gradeOutOf10 / 10) * 100;
+        const color = gradeOutOf10 >= 5 ? 'var(--success)' : 'var(--error)';
+        
+        ui.scoreCircle.style.background = `conic-gradient(${color} ${percentage}%, #f1f5f9 0%)`;
+        ui.finalGrade.style.color = color;
+
+        if (gradeOutOf10 >= 9) ui.finalMessage.innerText = "¡Excelente Trabajo! 🏆";
+        else if (gradeOutOf10 >= 7) ui.finalMessage.innerText = "¡Muy Buen Resultado! 💪";
+        else if (gradeOutOf10 >= 5) ui.finalMessage.innerText = "Aprobado 👍";
+        else ui.finalMessage.innerText = "Necesitas Repasar 📚";
+    }
+
+    initQuiz();
+</script>
+
+</body>
+</html>
